@@ -1,5 +1,5 @@
 // API base
-const API_BASE = 'http://localhost:3000/api/entrenador';
+const API_BASE = 'https://gymcore-wf8t.onrender.com/api/entrenador';
 
 let currentUser = null;
 let chartInstance = null;

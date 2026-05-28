@@ -2,7 +2,7 @@
 // URL BASE DEL BACKEND
 // ======================================
 
-const API = 'http://localhost:3000/api/asistencia';
+const API = 'https://gymcore-wf8t.onrender.com/api/asistencia';
 
 
 // ======================================

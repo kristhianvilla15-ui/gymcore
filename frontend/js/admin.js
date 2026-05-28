@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000/api/admin';
+const API_BASE = 'https://gymcore-wf8t.onrender.com/api/admin';
 let currentAdmin = null;
 
 document.addEventListener('DOMContentLoaded', () => {

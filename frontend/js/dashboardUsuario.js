@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3000/api/usuario';
+const API_BASE_URL = 'https://gymcore-wf8t.onrender.com/api/usuario';
 
 let rutinaCache = [];
 let clasesCache = [];
@@ -466,7 +466,7 @@ async function cancelarInscripcionClase(clase_id) {
         }
     } catch (error) {
         console.error('Error cancelando clase:', error);
-        alert('Error de conexión con el servidor. ¿Está corriendo el backend en http://localhost:3000?');
+        alert('Error de conexión con el servidor. Por favor, intenta más tarde.');
     }
 }
 

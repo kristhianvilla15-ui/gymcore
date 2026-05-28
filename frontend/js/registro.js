@@ -52,7 +52,7 @@ document.getElementById('formGymCore').addEventListener('submit', async (e) => {
     };
 
     try {
-        const response = await fetch(`http://localhost:3000/api/${rutas[rol]}/registrar`, {
+        const response = await fetch(`https://gymcore-wf8t.onrender.com/api/${rutas[rol]}/registrar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datos)
