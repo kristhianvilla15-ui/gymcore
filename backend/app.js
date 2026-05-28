@@ -8,7 +8,11 @@ const app = express();
 ========================================= */
 
 // Permite conexiones del frontend
-app.use(cors());
+app.use(cors({
+    origin: 'https://gymcore-finalkris.vercel.app', // Tu URL de Vercel
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Permite recibir JSON
 app.use(express.json());
