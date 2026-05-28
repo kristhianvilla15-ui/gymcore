@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymCore - Panel Administrador</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>GYMCORE</h2>
+            <span>ADMIN</span>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li data-section="dashboard" class="active">Resumen</li>
+                <li data-section="usuarios">Usuarios</li>
+                <li data-section="entrenadores">Entrenadores</li>
+                <li data-section="rutinas">Rutinas</li>
+                <li data-section="clases">Clases</li>
+                <li data-section="reportes">Reportes</li>
+                <li data-section="logout" class="logout">Cerrar Sesión</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <h1 id="pageTitle">Panel de Administrador</h1>
+                <p id="pageDescription">Vista general del sistema GymCore</p>
+            </div>
+            <div class="admin-badge">Administrador</div>
+        </header>
+        <div id="dynamicContent"></div>
+    </main>
+
+    <!-- MODAL USUARIO -->
+    <div id="modalUsuario" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('modalUsuario')">&times;</span>
+            <h2 id="modalUsuarioTitle">Nuevo Usuario</h2>
+            <form id="formUsuario">
+                <input type="hidden" id="usuarioId">
+                <label>Cédula:</label><input type="text" id="usuarioCedula" class="input-gym" required>
+                <label>Nombre:</label><input type="text" id="usuarioNombre" class="input-gym" required>
+                <label>Apellido:</label><input type="text" id="usuarioApellido" class="input-gym" required>
+                <label>Teléfono:</label><input type="text" id="usuarioTelefono" class="input-gym">
+                <label>Correo:</label><input type="email" id="usuarioCorreo" class="input-gym" required>
+                <label>Objetivo general:</label><input type="text" id="usuarioObjetivo" class="input-gym">
+                <label>Fecha nacimiento:</label><input type="date" id="usuarioFechaNac" class="input-gym">
+                <label>Sexo:</label>
+                <select id="usuarioSexo" class="input-gym">
+                    <option value="">Seleccionar</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+                <div style="margin-top:1rem; text-align:right;">
+                    <button type="button" class="btn-primary" onclick="guardarUsuario()">Guardar</button>
+                    <button type="button" class="btn-secondary" onclick="cerrarModal('modalUsuario')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL ENTRENADOR -->
+    <div id="modalEntrenador" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('modalEntrenador')">&times;</span>
+            <h2 id="modalEntrenadorTitle">Nuevo Entrenador</h2>
+            <form id="formEntrenador">
+                <input type="hidden" id="entrenadorId">
+                <label>Cédula:</label><input type="text" id="entrenadorCedula" class="input-gym" required>
+                <label>Nombre:</label><input type="text" id="entrenadorNombre" class="input-gym" required>
+                <label>Apellido:</label><input type="text" id="entrenadorApellido" class="input-gym" required>
+                <label>Teléfono:</label><input type="text" id="entrenadorTelefono" class="input-gym">
+                <label>Correo:</label><input type="email" id="entrenadorCorreo" class="input-gym" required>
+                <label>Especialidad:</label><input type="text" id="entrenadorEspecialidad" class="input-gym">
+                <div style="margin-top:1rem; text-align:right;">
+                    <button type="button" class="btn-primary" onclick="guardarEntrenador()">Guardar</button>
+                    <button type="button" class="btn-secondary" onclick="cerrarModal('modalEntrenador')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL RUTINA -->
+    <div id="modalRutina" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('modalRutina')">&times;</span>
+            <h2 id="modalRutinaTitle">Nueva Rutina</h2>
+            <form id="formRutina">
+                <input type="hidden" id="rutinaId">
+                <label>Nombre:</label><input type="text" id="rutinaNombre" class="input-gym" required>
+                <label>Descripción:</label><textarea id="rutinaDescripcion" class="input-gym"></textarea>
+                <label>Nivel:</label>
+                <select id="rutinaNivel" class="input-gym">
+                    <option value="principiante">Principiante</option>
+                    <option value="intermedio">Intermedio</option>
+                    <option value="avanzado">Avanzado</option>
+                </select>
+                <label>Grupo muscular:</label><input type="text" id="rutinaGrupo" class="input-gym" required>
+                <label>Objetivo:</label><input type="text" id="rutinaObjetivo" class="input-gym" required>
+                <label>Duración (semanas):</label><input type="number" id="rutinaDuracion" class="input-gym">
+                <label>Entrenador ID:</label><input type="number" id="rutinaEntrenadorId" class="input-gym" required>
+                <div style="margin-top:1rem; text-align:right;">
+                    <button type="button" class="btn-primary" onclick="guardarRutina()">Guardar</button>
+                    <button type="button" class="btn-secondary" onclick="cerrarModal('modalRutina')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CLASE -->
+    <div id="modalClase" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('modalClase')">&times;</span>
+            <h2 id="modalClaseTitle">Nueva Clase</h2>
+            <form id="formClase">
+                <input type="hidden" id="claseId">
+                <label>Nombre:</label><input type="text" id="claseNombre" class="input-gym" required>
+                <label>Descripción:</label><textarea id="claseDescripcion" class="input-gym"></textarea>
+                <label>Entrenador ID:</label><input type="number" id="claseEntrenadorId" class="input-gym" required>
+                <label>Cupo máximo:</label><input type="number" id="claseCupo" class="input-gym">
+                <label>Hora inicio:</label><input type="time" id="claseHoraInicio" class="input-gym" required>
+                <label>Hora fin:</label><input type="time" id="claseHoraFin" class="input-gym" required>
+                <label>Días (IDs separados por coma, ej: 1,3,5):</label><input type="text" id="claseDias" class="input-gym" placeholder="1,3,5">
+                <div style="margin-top:1rem; text-align:right;">
+                    <button type="button" class="btn-primary" onclick="guardarClase()">Guardar</button>
+                    <button type="button" class="btn-secondary" onclick="cerrarModal('modalClase')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/sessionGuard.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

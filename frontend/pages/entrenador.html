@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymCore - Panel Entrenador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar"> 
+        <h2>GYMCORE <small>COACH</small></h2>
+        <nav>
+            <ul>
+                <li onclick="mostrarSeccion('usuarios')">👥 Mis Usuarios</li>
+                <li onclick="mostrarSeccion('gestion-planes')">📋 Gestionar Planes</li>
+                <li onclick="mostrarSeccion('gestion-clases')">🏋️ Gestionar Clases</li>
+                <li onclick="mostrarSeccion('reportes')">📊 Reportes</li>
+                <li onclick="logout()">🚪 Cerrar Sesión</li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        <h1>Panel de Entrenamiento</h1>
+
+        <!-- SECCIÓN MIS USUARIOS -->
+        <div id="usuarios" class="seccion-dashboard">
+            <div class="card-grid">
+                <div class="card"><h3>Usuarios Activos</h3><p id="totalActivos">0</p></div>
+                <div class="card"><h3>Asistencias Hoy</h3><p id="asistenciasHoy">0</p></div>
+            </div>
+            <section class="card">
+                <h2>Usuarios Bajo Supervisión</h2>
+                <div class="table-container">
+                    <table>
+                        <thead><tr><th>Nombre</th><th>Nivel</th><th>Última Asistencia</th><th>Acciones</th></tr></thead>
+                        <tbody id="tablaUsuarios"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECCIÓN GESTIONAR PLANES -->
+        <div id="gestion-planes" class="seccion-dashboard" style="display:none;">
+            <div class="card-grid">
+                <section class="card">
+                    <h2>Nueva Rutina</h2>
+                    <form id="formRutina" class="form-gym">
+                        <label>Nombre de Rutina:</label><input type="text" id="nombreRutina" class="input-gym" placeholder="Ej: Hipertrofia Push">
+                        <label>Grupo muscular:</label>
+                        <select id="grupoMuscularRutina" class="input-gym">
+                            <option value="tren superior">Tren superior</option><option value="tren inferior">Tren inferior</option>
+                            <option value="push">Push</option><option value="pull">Pull</option><option value="full body">Full body</option>
+                            <option value="cardio">Cardio</option><option value="funcional">Funcional</option><option value="core">Core</option>
+                            <option value="gluteo y pierna">Glúteo y pierna</option>
+                        </select>
+                        <label>Nivel:</label>
+                        <select id="nivelRutina" class="input-gym">
+                            <option value="principiante">Principiante</option><option value="intermedio">Intermedio</option><option value="avanzado">Avanzado</option>
+                        </select>
+                        <label>Objetivo:</label>
+                        <select id="objetivoRutina" class="input-gym">
+                            <option value="fuerza">Fuerza</option><option value="hipertrofia">Hipertrofia</option>
+                            <option value="resistencia">Resistencia</option><option value="definicion">Definición</option><option value="movilidad">Movilidad</option>
+                        </select>
+                        <label>Duración (Semanas):</label><input type="number" id="duracionSemanas" class="input-gym" placeholder="Ej: 4">
+                        <label>Descripción:</label><textarea id="descripcionRutina" class="input-gym" placeholder="Escribe aquí los ejercicios..."></textarea>
+                        <button type="button" class="btn-gym" onclick="publicarRutina()">PUBLICAR RUTINA</button>
+                    </form>
+                </section>
+                <section class="card">
+                    <h2>Nueva Dieta</h2>
+                    <form id="formDieta" class="form-gym">
+                        <label>Nombre del Plan:</label><input type="text" id="nombreDieta" class="input-gym" placeholder="Ej: Definición Estricta">
+                        <label>Objetivo Nutricional:</label>
+                        <select id="objetivoDieta" class="input-gym" onchange="actualizarEstimacion()">
+                            <option value="Bajar peso">Bajar peso</option><option value="Ganar masa muscular">Ganar masa muscular</option><option value="Mantener peso">Mantener peso</option>
+                        </select>
+                        <label>Descripción / Menú:</label><textarea id="descripcionDieta" class="input-gym" placeholder="Comidas y macros..."></textarea>
+                        <div class="preview-box" id="boxEstimacion">Seleccione un plan para ver la estimación.</div>
+                        <button type="button" class="btn-gym" onclick="publicarDieta()">PUBLICAR DIETA</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <!-- SECCIÓN GESTIONAR CLASES -->
+        <div id="gestion-clases" class="seccion-dashboard" style="display:none;">
+            <section class="card">
+                <h2>Programar Clase Dirigida</h2>
+                <div class="form-gym-row">
+                    <div><label>Clase:</label><select id="nombreClase" class="input-gym"><option value="Spinning">Spinning</option><option value="Yoga">Yoga</option><option value="Crossfit">Crossfit</option><option value="Funcional">Funcional</option></select></div>
+                    <div><label>Día:</label><select id="diaClase" class="input-gym"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="7">Domingo</option></select></div>
+                    <div><label>Cupo máximo:</label><input type="number" id="cupoMaximo" class="input-gym" placeholder="Ej: 20" min="1"></div>
+                    <div><label>Hora Inicio:</label><input type="time" id="horaInicio" class="input-gym"></div>
+                    <div><label>Hora Fin:</label><input type="time" id="horaFin" class="input-gym"></div>
+                    <button type="button" onclick="crearClase()" class="btn-gym">Publicar Clase</button>
+                </div>
+            </section>
+            <section class="card">
+                <h2>Mis Clases Programadas</h2>
+                <div class="table-container">
+                    <table><thead><tr><th>Actividad</th><th>Día(s)</th><th>Horario</th><th>Cupo</th><th>Inscritos</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="tablaClasesProgramadas"></tbody></table>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECCIÓN REPORTES (con evolución de peso) -->
+        <div id="reportes" class="seccion-dashboard" style="display:none;">
+            <div class="card">
+                <h2>Filtros de Reporte</h2>
+                <div class="form-gym-row">
+                    <div><label>Tipo de Reporte:</label><select id="tipoReporte" class="input-gym" onchange="generarReporte()"><option value="progreso">Progreso de Usuarios</option><option value="asistencias">Asistencias</option><option value="rendimiento">Rendimiento por Plan</option><option value="comparativa">Comparativa Mensual</option></select></div>
+                    <div><label>Usuario:</label><select id="usuarioReporte" class="input-gym" onchange="generarReporte()"><option value="">Todos los usuarios</option></select></div>
+                    <div><label>Período:</label><select id="periodoReporte" class="input-gym" onchange="generarReporte()"><option value="semanal">Última semana</option><option value="mensual">Último mes</option><option value="trimestral">Último trimestre</option><option value="anual">Último año</option></select></div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card"><h3>Total Usuarios</h3><p id="reportTotalUsuarios" style="font-size: 32px;">0</p></div>
+                <div class="card"><h3>Tasa de Asistencia</h3><p id="reportTasaAsistencia" style="font-size: 32px;">0%</p></div>
+                <div class="card"><h3>Usuarios Activos</h3><p id="reportUsuariosActivos" style="font-size: 32px;">0</p></div>
+                <div class="card"><h3>Promedio Asistencia/Mes</h3><p id="reportPromedioAsistencia" style="font-size: 32px;">0</p></div>
+                <div class="card"><h3>📉 Promedio Pérdida Peso</h3><p id="promedioPerdidaPeso" style="font-size: 32px;">0 kg</p></div>
+            </div>
+
+            <div class="card"><h2>Gráfico de Asistencias</h2><canvas id="graficoAsistencias" style="max-height: 400px; width: 100%;"></canvas></div>
+
+            <div class="card">
+                <h2>Detalle de Reporte</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Usuario</th><th>Asistencias</th><th>Progreso</th><th>Rendimiento</th><th>Evolución Peso</th><th>Última Actividad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReporte"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Gráficos extra -->
+            <div class="card"><h3>📉 Evolución de Peso Promedio (últimos 90 días)</h3><div class="chart-container"><canvas id="graficoEvolucionPeso" style="max-height: 300px;"></canvas></div></div>
+            <div class="card"><h3>🏆 Rendimiento Promedio por Objetivo de Rutina</h3><div class="chart-container"><canvas id="graficoRendimientoPlanes" style="max-height: 300px;"></canvas></div></div>
+        </div>
+    </main>
+
+    <script src="../js/sessionGuard.js"></script>
+    <script src="../js/dashboardEntrenador.js"></script>
+    <script>
+        function actualizarEstimacion() {
+            const obj = document.getElementById('objetivoDieta');
+            const box = document.getElementById('boxEstimacion');
+            if (!obj || !box) return;
+            const est = { 'Bajar peso':'📉 Estimación: Reducción de 0.5kg a 0.8kg de grasa por semana.', 'Ganar masa muscular':'💪 Estimación: Aumento de 0.2kg a 0.5kg de músculo por mes.', 'Mantener peso':'⚖️ Estimación: Optimización de recomposición corporal.' };
+            box.innerText = est[obj.value] || 'Seleccione un plan para ver la estimación.';
+        }
+        window.addEventListener('DOMContentLoaded', actualizarEstimacion);
+    </script>
+</body>
+</html>

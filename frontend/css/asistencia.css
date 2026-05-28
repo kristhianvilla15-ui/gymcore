@@ -1,0 +1,253 @@
+/* =========================
+   VARIABLES GENERALES
+========================= */
+:root {
+
+    --fondo: #121212;
+    --card: #1f1f1f;
+
+    --texto: #ffffff;
+    --texto-secundario: #b3b3b3;
+
+    --verde: #00ff88;
+    --rojo: #ff5c5c;
+
+    --borde: #333333;
+}
+
+/* =========================
+   RESET BÁSICO
+========================= */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   BODY
+========================= */
+body{
+
+    background: var(--fondo);
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+.asistencia-container{
+
+    width: 100%;
+    max-width: 450px;
+
+    background: var(--card);
+
+    padding: 35px;
+
+    border-radius: 18px;
+
+    border: 1px solid var(--borde);
+
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+}
+
+/* =========================
+   TITULO
+========================= */
+.asistencia-container h1{
+
+    color: var(--texto);
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
+    font-size: 2rem;
+}
+
+/* =========================
+   TEXTO
+========================= */
+.asistencia-container p{
+
+    color: var(--texto-secundario);
+
+    text-align: center;
+
+    margin-bottom: 30px;
+
+    line-height: 1.5;
+}
+
+/* =========================
+   LABEL
+========================= */
+label{
+
+    display: block;
+
+    color: var(--texto-secundario);
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+}
+
+/* =========================
+   INPUT
+========================= */
+input{
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--borde);
+
+    background: #2a2a2a;
+
+    color: white;
+
+    font-size: 1rem;
+
+    margin-bottom: 20px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+/* Efecto al seleccionar */
+input:focus{
+
+    border-color: var(--verde);
+}
+
+/* =========================
+   BOTONES
+========================= */
+.botones{
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+/* Botones generales */
+.botones button{
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+/* Hover */
+.botones button:hover{
+
+    transform: translateY(-2px);
+}
+
+/* Botón entrada */
+.btn-entrada{
+
+    background: var(--verde);
+
+    color: black;
+}
+
+/* Botón salida */
+.btn-salida{
+
+    background: #2d2d2d;
+
+    color: white;
+
+    border: 1px solid var(--borde);
+}
+
+/* =========================
+   MENSAJES
+========================= */
+#mensaje{
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    min-height: 20px;
+}
+
+/* Mensaje éxito */
+.ok{
+
+    color: var(--verde);
+}
+
+/* Mensaje error */
+.error{
+
+    color: var(--rojo);
+}
+
+/* =========================
+   VOLVER AL LOGIN
+========================= */
+.btn-volver{
+
+    display: block;
+
+    margin-top: 25px;
+
+    padding: 14px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    border: 1px solid var(--borde);
+
+    background: #2d2d2d;
+
+    color: var(--texto);
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.btn-volver:hover{
+
+    border-color: var(--verde);
+
+    color: var(--verde);
+
+    transform: translateY(-2px);
+}

@@ -1,0 +1,110 @@
+/* frontend/css/registro.css */
+
+/* 1. Estilos Generales y Contenedor */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.registro-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* 2. Estilos de los Inputs y Selects */
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Evita que el padding ensanche el input */
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #28a745; /* Verde éxito para el enfoque */
+}
+
+/* 3. Secciones Dinámicas */
+/* Usamos display: none para que lo que no sea necesario no ocupe espacio */
+#seccionUsuario, #seccionEntrenador {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border-left: 4px solid #28a745;
+}
+
+/* 4. Botón de Enviar */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Estilo para los mensajes de alerta o error (opcional) */
+.mensaje {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.85rem;
+}
+
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.login-link a {
+    color: #00ff88; /* El verde neón de tu GymCore */
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.login-link a:hover {
+    color: #00cc6e;
+    text-decoration: underline;
+}

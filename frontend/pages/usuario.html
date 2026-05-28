@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymCore - Panel de Usuario</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2>GYMCORE</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li onclick="mostrarSeccion('progreso')">📊 <span>Mi Progreso</span></li>
+                <li onclick="mostrarSeccion('rutinas')">💪 <span>Mis Rutinas</span></li>
+                <li onclick="mostrarSeccion('dietas')">🥗 <span>Mi Dieta</span></li>
+                <li onclick="mostrarSeccion('clases')">🗓️ <span>Clases</span></li>
+                <li onclick="mostrarSeccion('medidas')">📏 <span>Mis Medidas</span></li>
+                <li onclick="logout()" class="nav-logout">🚪 <span>Cerrar Sesión</span></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <h1>Bienvenido, <span id="userName">Cargando...</span></h1>
+        </header>
+
+        <div id="progreso" class="seccion-dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Asistencia Mes</span>
+                    <p id="asistenciaTotal" class="stat-value">0%</p>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Nivel Actual</span>
+                    <p id="nivelProgreso" class="stat-value accent">Bajo</p>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Racha</span>
+                    <p id="rachaDias" class="stat-value">0 días 🔥</p>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="card info-box">
+                    <h3>Rutina de Hoy</h3>
+                    <div id="detalle-rutina" class="preview-text">Cargando rutina...</div>
+                </div>
+
+                <div class="card info-box">
+                    <h3>Plan Nutricional</h3>
+                    <div id="detalle-dieta" class="preview-text">Cargando dieta...</div>
+                </div>
+            </div>
+
+            <div class="report-grid">
+                <div class="report-card">
+                    <h3>Reporte de Progreso</h3>
+
+                    <div class="progress-bars">
+                        <div class="progress-item">
+                            <div class="progress-top">
+                                <span>Asistencia</span>
+                                <span id="porcentajeAsistencia">0%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" id="barraAsistencia"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-top">
+                                <span>Constancia</span>
+                                <span id="porcentajeConstancia">0%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" id="barraConstancia"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-top">
+                                <span>Progreso físico</span>
+                                <span id="porcentajeFisico">0%</span>
+                            </div>
+                            <div class="progress-bg">
+                                <div class="progress-fill" id="barraFisico"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>Estado Corporal</h3>
+
+                    <div class="body-stats">
+                        <div class="body-card">
+                            <span>Peso Actual</span>
+                            <h2 id="pesoActual">0 kg</h2>
+                        </div>
+
+                        <div class="body-card">
+                            <span>Brazo</span>
+                            <h2 id="brazoActual">0 cm</h2>
+                        </div>
+
+                        <div class="body-card">
+                            <span>Pecho</span>
+                            <h2 id="pechoActual">0 cm</h2>
+                        </div>
+
+                        <div class="body-card">
+                            <span>Pierna</span>
+                            <h2 id="piernaActual">0 cm</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Evolución del Peso</h3>
+                <div class="chart-container">
+                    <canvas id="graficaPeso"></canvas>
+                </div>
+            </div>
+
+            <div class="card table-container">
+                <h3>Mis Rutinas Asignadas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rutina</th>
+                            <th>Nivel</th>
+                            <th>Grupo muscular</th>
+                            <th>Días</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaRutinasAsignadas"></tbody>
+                </table>
+            </div>
+
+            <div class="card table-container">
+                <h3>Historial de Medidas</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Peso</th>
+                            <th>Brazo</th>
+                            <th>Pecho</th>
+                            <th>Pierna</th>
+                            <th>Notas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaMedidas"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="rutinas" class="seccion-dashboard" style="display:none;">
+            <div class="card">
+                <h2>Filtrar Rutinas</h2>
+
+                <div class="flex-row" style="flex-wrap: wrap;">
+                    <div class="form-group" style="min-width: 200px;">
+                        <label>Nivel</label>
+                        <select id="filtroNivel" class="input-dark" onchange="aplicarFiltrosRutinas()">
+                            <option value="">Todos</option>
+                            <option value="principiante">Principiante</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="min-width: 240px;">
+                        <label>Grupo muscular</label>
+                        <select id="filtroGrupo" class="input-dark" onchange="aplicarFiltrosRutinas()">
+                            <option value="">Todos</option>
+                            <option value="tren superior">Tren superior</option>
+                            <option value="tren inferior">Tren inferior</option>
+                            <option value="push">Push</option>
+                            <option value="pull">Pull</option>
+                            <option value="full body">Full body</option>
+                            <option value="cardio">Cardio</option>
+                            <option value="funcional">Funcional</option>
+                            <option value="core">Core</option>
+                            <option value="gluteo y pierna">Glúteo y pierna</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Catálogo de Rutinas</h2>
+                <div id="lista-rutinas" class="grid-container"></div>
+            </div>
+
+            <div class="card assignment-form">
+                <h3>Asignar Rutina por Días</h3>
+
+                <div class="flex-row" style="flex-wrap: wrap;">
+                    <div class="form-group" style="min-width: 240px;">
+                        <label>Seleccionar Rutina</label>
+                        <select id="rutinaSelect" class="input-dark"></select>
+                    </div>
+
+                    <div class="form-group" style="min-width: 420px;">
+                        <label>Días</label>
+                        <div style="display:grid; grid-template-columns: repeat(4, minmax(90px, 1fr)); gap: 8px;">
+                            <label><input type="checkbox" name="diasRutina" value="1"> Lunes</label>
+                            <label><input type="checkbox" name="diasRutina" value="2"> Martes</label>
+                            <label><input type="checkbox" name="diasRutina" value="3"> Miércoles</label>
+                            <label><input type="checkbox" name="diasRutina" value="4"> Jueves</label>
+                            <label><input type="checkbox" name="diasRutina" value="5"> Viernes</label>
+                            <label><input type="checkbox" name="diasRutina" value="6"> Sábado</label>
+                            <label><input type="checkbox" name="diasRutina" value="7"> Domingo</label>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="asignarRutina()">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dietas" class="seccion-dashboard" style="display:none;">
+            <div class="card">
+                <h2>Planes Alimenticios</h2>
+                <div id="lista-dietas" class="grid-container"></div>
+            </div>
+        </div>
+
+        <div id="clases" class="seccion-dashboard" style="display:none;">
+            <div class="card">
+                <h2>Horarios de Clases</h2>
+                <div id="lista-clases" class="grid-container"></div>
+            </div>
+        </div>
+
+        <div id="medidas" class="seccion-dashboard" style="display:none;">
+            <div class="card center-container">
+                <h2>Nueva Medida</h2>
+                <p>Ingresa tus datos actuales para seguir tu progreso físico.</p>
+
+                <form id="formMedidas" class="gym-form">
+                    <div class="form-group">
+                        <label for="peso">Peso Corporal (kg)</label>
+                        <input type="number" step="0.1" id="peso" class="input-dark" required>
+                    </div>
+
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Brazo (cm)</label>
+                            <input type="number" step="0.1" id="brazo" class="input-dark">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pecho (cm)</label>
+                            <input type="number" step="0.1" id="pecho" class="input-dark">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pierna (cm)</label>
+                            <input type="number" step="0.1" id="pierna" class="input-dark">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Observaciones</label>
+                        <textarea id="observacion" class="input-dark" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary full-width">Registrar Medida</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/sessionGuard.js"></script>
+    <script src="../js/dashboardUsuario.js"></script>
+</body>
+</html>

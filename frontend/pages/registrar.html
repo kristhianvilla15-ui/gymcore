@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymCore - Registro de Personal</title>
+    <link rel="stylesheet" href="../css/registro.css">
+</head>
+<body>
+
+    <div class="registro-card">
+        <h2>Registro de Personal</h2>
+        <p class="subtitle">Complete la información para dar de alta en el sistema</p>
+        
+        <div class="input-group">
+            <label for="tipoRol">Tipo de Perfil</label>
+            <select id="tipoRol" onchange="adaptarFormulario()">
+                <option value="entrenador">Entrenador</option>
+                <option value="usuario">Usuario (Cliente)</option>
+            </select>
+        </div>
+
+        <form id="formGymCore">
+            <div class="input-group">
+                <input type="text" id="cedula" placeholder="Cédula de identidad (10 dígitos)" required 
+                       minlength="10" maxlength="10" pattern="\d{10}" 
+                       title="Debe tener exactamente 10 dígitos numéricos">
+                <small id="cedulaError" style="color: #ff6b6b; display: none; font-size: 0.75rem;">
+                    La cédula debe tener exactamente 10 dígitos numéricos.
+                </small>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <input type="text" id="nombre" placeholder="Nombre" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="apellido" placeholder="Apellido" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="telefono" placeholder="Número de teléfono" required>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="correo" placeholder="Correo electrónico" required>
+            </div>
+
+            <div id="seccionEntrenador">
+                <div class="input-group">
+                    <label>Información Profesional</label>
+                    <input type="text" id="especialidad" placeholder="Especialidad (ej: Pesas, Yoga, CrossFit)">
+                </div>
+            </div>
+
+            <div id="seccionUsuario" style="display: none;">
+                <div class="input-group">
+                    <label>Datos de Entrenamiento</label>
+                    <input type="text" id="objetivo" placeholder="Objetivo general (ej: Ganar masa)">
+                </div>
+                <div class="input-group">
+                    <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                    <input type="date" id="fechaNacimiento">
+                </div>
+            </div>
+
+            <button type="submit" id="btnAccion">Registrar Entrenador</button>
+            <div class="login-link">
+                <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+            </div>
+        </form>
+
+        <div id="mensajeRespuesta" class="mensaje"></div>
+    </div>
+
+    <script src="../js/registro.js"></script>
+
+    <script>
+        // Validación en tiempo real para la cédula
+        const cedulaInput = document.getElementById('cedula');
+        const cedulaError = document.getElementById('cedulaError');
+        cedulaInput.addEventListener('input', function() {
+            const value = this.value.trim();
+            const soloNumeros = /^\d+$/.test(value);
+            if (value.length === 10 && soloNumeros) {
+                this.style.borderColor = '#00ff88';
+                cedulaError.style.display = 'none';
+            } else {
+                this.style.borderColor = '#ff6b6b';
+                cedulaError.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

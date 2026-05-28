@@ -1,0 +1,556 @@
+:root {
+    --bg-main: #121212;
+    --bg-card: #1e1e1e;
+    --bg-soft: #252525;
+    --primary: #00ff88;
+    --primary-dim: #00cc6e;
+    --text-white: #ffffff;
+    --text-gray: #b3b3b3;
+    --border-color: #333333;
+    --shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    --transition: all 0.25s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg-main);
+    color: var(--text-white);
+}
+
+.sidebar {
+    width: 260px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    padding: 2rem 1.25rem;
+    position: fixed;
+    inset: 0 auto 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    margin-bottom: 2rem;
+}
+
+.brand h2 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+.brand span {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    letter-spacing: 3px;
+}
+
+.menu ul {
+    list-style: none;
+}
+
+.menu li {
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 0.4rem;
+}
+
+.menu li:hover,
+.menu li.active {
+    background: rgba(0, 255, 136, 0.08);
+    color: var(--primary);
+}
+
+.menu li.logout:hover {
+    background: rgba(255, 77, 77, 0.08);
+    color: #ff6b6b;
+}
+
+.main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    padding: 2.5rem;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.topbar h1 {
+    font-size: 2rem;
+    margin-bottom: 0.35rem;
+}
+
+.topbar p {
+    color: var(--text-gray);
+}
+
+.admin-badge {
+    background: var(--primary);
+    color: #000;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.stat-card h3 {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+}
+
+.stat-card p {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.panels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel,
+.table-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.panel h2,
+.table-card h2 {
+    margin-bottom: 0.6rem;
+    font-size: 1.25rem;
+}
+
+.panel p {
+    color: var(--text-gray);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.panel button {
+    width: 100%;
+    display: block;
+    margin-top: 0.65rem;
+    padding: 0.9rem 1rem;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary);
+    color: #000;
+    font-weight: 800;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.panel button:hover {
+    background: var(--primary-dim);
+    transform: translateY(-1px);
+}
+
+.table-card {
+    overflow-x: auto;
+}
+
+.table-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.table-card th,
+.table-card td {
+    text-align: left;
+    padding: 0.9rem 0.8rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-card th {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.table-card td {
+    color: var(--text-white);
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: 84px;
+        padding: 1.25rem 0.6rem;
+    }
+
+    .brand h2,
+    .brand span,
+    .menu li {
+        text-align: center;
+    }
+
+    .brand h2 {
+        font-size: 1rem;
+    }
+
+    .brand span {
+        display: none;
+    }
+
+    .menu li {
+        font-size: 0;
+        padding: 0.9rem 0.5rem;
+    }
+
+    .menu li::before {
+        content: "•";
+        font-size: 1rem;
+    }
+
+    .main-content {
+        margin-left: 84px;
+        width: calc(100% - 84px);
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+.btn-primary, .btn-edit, .btn-delete, .btn-activate, .btn-danger {
+    padding: 0.45rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00ff88, #00cc6e);
+    color: #000;
+    box-shadow: 0 2px 6px rgba(0,255,136,0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,255,136,0.3);
+}
+
+.btn-edit {
+    background: #2c3e66;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #1e2a4a;
+    transform: translateY(-1px);
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #bb2d3b;
+    transform: translateY(-1px);
+}
+
+.btn-activate {
+    background: #28a745;
+    color: white;
+}
+
+.btn-activate:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: #ff6b6b;
+    color: #000;
+}
+
+.btn-danger:hover {
+    background: #ff5252;
+}
+
+/* Ajuste para la tabla */
+.table-card td {
+    vertical-align: middle;
+}
+.table-card button {
+    margin: 0 3px;
+}
+
+/* ===== BOTONES MODERNOS (estilo GymCore) ===== */
+.btn-primary, .btn-edit, .btn-delete, .btn-activate, .btn-danger {
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Botón primario (verde) - para "Nuevo Usuario", etc. */
+.btn-primary {
+    background: linear-gradient(135deg, #00ff88, #00cc6e);
+    color: #000;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,255,136,0.3);
+}
+
+/* Botón Editar (azul/gris) */
+.btn-edit {
+    background: linear-gradient(135deg, #3a6ea5, #2c4d74);
+    color: white;
+}
+.btn-edit:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #4a7eb5, #3a5d84);
+}
+
+/* Botón Eliminar (rojo) */
+.btn-delete {
+    background: linear-gradient(135deg, #ff4d4d, #cc0000);
+    color: white;
+}
+.btn-delete:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ff6666, #dd0000);
+}
+
+/* Botón Desactivar (naranja/rojo oscuro) */
+.btn-danger, .btn-deshabilitar {
+    background: linear-gradient(135deg, #ff6b6b, #cc3333);
+    color: white;
+}
+.btn-danger:hover, .btn-deshabilitar:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #ff8585, #dd4444);
+}
+
+/* Botón Activar (verde) */
+.btn-activate {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+    color: white;
+}
+.btn-activate:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #34ce57, #28a745);
+}
+
+/* Botón pequeño para tablas (opcional, si quieres más compacto) */
+.btn-small {
+    padding: 0.35rem 0.9rem;
+    font-size: 0.7rem;
+}
+
+.card-chart {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+.card-chart h3 {
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+/* MODALES */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+.modal-content h2 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+.close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-gray);
+}
+.close:hover {
+    color: var(--primary);
+}
+.input-gym {
+    background: #252525;
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 0.6rem;
+    border-radius: 12px;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.filtros-reporte {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--card-bg, #1e1e1e);
+    border-radius: 12px;
+    border: 1px solid var(--border-color, #333);
+}
+
+.filtros-reporte > div {
+    flex: 1;
+    min-width: 160px;
+}
+
+.filtros-reporte label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--text-gray, #aaa);
+    font-size: 0.85rem;
+}
+
+.filtros-reporte .input-gym {
+    margin-bottom: 0;
+}
+
+.filtros-reporte .btn-primary {
+    margin-bottom: 0;
+    height: fit-content;
+}
+
+.rango-reporte {
+    color: var(--text-gray, #aaa);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* Botones primarios (Guardar) - igual que PUBLICAR CLASE */
+.btn-primary {
+    background: linear-gradient(135deg, #00ff88, #00cc6e);
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-weight: 700;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,255,136,0.3);
+    background: linear-gradient(135deg, #33ff9e, #00cc6e);
+}
+
+/* Botón secundario (Cancelar) - estilo moderno oscuro */
+.btn-secondary {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+    color: #fff;
+    border: 1px solid #555;
+    padding: 0.6rem 1.5rem;
+    font-weight: 700;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #4a4a4a, #3a3a3a);
+    border-color: #777;
+}
+
+/* Si ya tienes .btn-gym, puedes mantenerlo, pero .btn-primary es más semántico */

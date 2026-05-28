@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Hace que la página sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GymCore - Asistencia</title>
+
+    <!-- Conexión con el CSS -->
+    <link rel="stylesheet" href="../css/asistencia.css">
+</head>
+<body>
+
+    <!-- Contenedor principal -->
+    <div class="asistencia-container">
+
+        <!-- Título -->
+        <h1>Registro de Asistencia</h1>
+
+        <!-- Descripción -->
+        <p>
+            Ingresa tu cédula para registrar tu entrada o salida del gimnasio.
+        </p>
+
+        <!-- Input de cédula -->
+        <label for="cedula">Cédula</label>
+
+        <input
+            type="text"
+            id="cedula"
+            placeholder="Ingresa tu cédula"
+        >
+
+        <!-- Botones -->
+        <div class="botones">
+
+            <!-- Botón entrada -->
+            <button
+                class="btn-entrada"
+                onclick="registrarEntrada()"
+            >
+                Marcar Entrada
+            </button>
+
+            <!-- Botón salida -->
+            <button
+                class="btn-salida"
+                onclick="registrarSalida()"
+            >
+                Marcar Salida
+            </button>
+
+        </div>
+
+        <!-- Mensajes del sistema -->
+        <div id="mensaje"></div>
+
+        <a href="login.html" class="btn-volver">Volver a Usuarios</a>
+
+    </div>
+
+    <!-- JS -->
+    <script src="../js/asistencia.js"></script>
+
+</body>
+</html>

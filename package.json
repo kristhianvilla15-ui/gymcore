@@ -1,0 +1,20 @@
+{
+  "name": "gymcore",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GymCore - backend y frontend",
+  "scripts": {
+    "dev": "concurrently -n backend,frontend,browser -c green,cyan,magenta \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run open:browser\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "serve frontend -l 5500",
+    "open:browser": "wait-on tcp:127.0.0.1:5500 tcp:127.0.0.1:3000 -t 60000 && open-cli http://localhost:5500/pages/login.html",
+    "install:all": "npm install && npm install --prefix backend",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "open-cli": "^8.0.0",
+    "serve": "^14.2.4",
+    "wait-on": "^8.0.3"
+  }
+}

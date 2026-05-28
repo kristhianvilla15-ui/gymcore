@@ -1,0 +1,11 @@
+# Dependencias (evita subir miles de archivos)
+node_modules/
+backend/node_modules/
+
+# Variables de entorno (contraseñas, claves)
+.env
+
+# Archivos de sistema o logs (opcional)
+.DS_Store
+Thumbs.db
+*.log

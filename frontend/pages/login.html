@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GymCore</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="formLogin">
+            <label>Tipo de Perfil:</label>
+            <select id="rolLogin" required>
+                <option value="usuario">Usuario / Cliente</option>
+                <option value="entrenador">Entrenador</option>
+                <option value="admin">Administrador</option>
+            </select>
+
+            <input type="email" id="correoLogin" placeholder="Correo electrónico" required>
+            <input type="password" id="cedulaLogin" placeholder="Cédula (Contraseña)" required>
+
+            <button type="submit">Ingresar al Sistema</button>
+            <a href="asistencia.html" class="btn-asistencia">Marcar Asistencia</a>
+            <div class="register-link">
+    <p>¿No tienes una cuenta? <a href="registrar.html">Regístrate aquí</a></p>
+</div>
+        </form>
+    </div>
+    <script src="../js/login.js"></script>
+</body>
+</html>
