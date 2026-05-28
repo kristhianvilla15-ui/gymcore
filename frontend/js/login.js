@@ -10,7 +10,7 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
     const cedula = document.getElementById('cedulaLogin').value;
 
     try {
-        const response = await fetch('http://localhost:3000/api/auth/login', {
+        const response = await fetch('https://gymcore-wf8t.onrender.com/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ rol, correo, cedula })
