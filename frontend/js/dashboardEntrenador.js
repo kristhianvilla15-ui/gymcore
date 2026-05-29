@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('userName')) {
         document.getElementById('userName').textContent = currentUser.nombre;
     }
-    
+
     cargarDatosEntrenador();
     cargarMisClases();
     cargarUsuariosParaReporte();
@@ -52,15 +52,18 @@ async function cargarDatosEntrenador() {
     if (!currentUser || !currentUser.id_entrenador) {
         console.error('No se encontró ID del entrenador');
         return;
+
     }
+    console.log("Despachando petición a Render con Entrenador ID:", currentUser.id_entrenador);
+
     try {
         const res = await fetch(`${API_BASE}/supervision?entrenadorId=${currentUser.id_entrenador}`);
         if (!res.ok) throw new Error('Error en la petición');
         const data = await res.json();
-        
+
         document.getElementById('totalActivos').textContent = data.usuariosActivos || 0;
         document.getElementById('asistenciasHoy').textContent = data.asistenciasHoy || 0;
-        
+
         const tabla = document.getElementById('tablaUsuarios');
         if (tabla && data.listaUsuarios) {
             tabla.innerHTML = data.listaUsuarios.map(u => `
@@ -307,7 +310,7 @@ function actualizarGrafico(data, tipo) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (chartInstance) chartInstance.destroy();
-    
+
     let labels = [], valores = [], labelTexto = '', tipoGrafico = 'line';
     if (tipo === 'asistencias' || tipo === 'progreso') {
         labels = data.fechas?.length ? data.fechas : ['Sin datos'];
@@ -325,7 +328,7 @@ function actualizarGrafico(data, tipo) {
         labelTexto = 'Asistencias Mensuales';
         tipoGrafico = 'line';
     }
-    
+
     chartInstance = new Chart(ctx, {
         type: tipoGrafico,
         data: { labels, datasets: [{ label: labelTexto, data: valores, borderColor: '#00ff88', backgroundColor: tipoGrafico === 'bar' ? 'rgba(0, 255, 136, 0.2)' : 'rgba(0, 255, 136, 0.1)', borderWidth: 2, fill: true, tension: 0.3, pointBackgroundColor: '#00ff88', pointBorderColor: '#fff' }] },
