@@ -35,7 +35,7 @@ exports.getSupervision = async (req, res) => {
 
     try {
         // Total de usuarios activos
-        const [totalUsuarios] = await db.query('SELECT COUNT(*) AS total FROM usuarios WHERE estado = "activo"');
+        const [totalUsuarios] = await db.query(`SELECT COUNT(*) AS total FROM usuarios WHERE estado = 'activo'`);
         const usuariosActivos = totalUsuarios[0].total;
 
         // Asistencias de hoy
