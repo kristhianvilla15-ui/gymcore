@@ -41,11 +41,11 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
 
         // ✅ CORRECCIÓN FINAL: Se añade '/frontend' antes de '/pages' porque Vercel lo exige
         if (userFinal.rol === 'entrenador') {
-            window.location.replace('/frontend/pages/entrenador.html');
+            window.location.replace('/pages/entrenador.html');
         } else if (userFinal.rol === 'admin') {
-            window.location.replace('/frontend/pages/admin.html');
+            window.location.replace('/pages/admin.html');
         } else {
-            window.location.replace('/frontend/pages/usuario.html');
+            window.location.replace('/pages/usuario.html');
         }
     } catch (error) {
         console.error('Error:', error);
