@@ -3,10 +3,11 @@ const db = require('../config/db');
 // ==================== DASHBOARD / RESÚMEN ====================
 exports.getDashboard = async (req, res) => {
     try {
-        const [totalUsuarios] = await db.query('SELECT COUNT(*) as total FROM usuarios WHERE estado = "activo"');
-        const [totalEntrenadores] = await db.query('SELECT COUNT(*) as total FROM entrenadores WHERE estado = "activo"');
-        const [totalClases] = await db.query('SELECT COUNT(*) as total FROM clases WHERE estado = "activa"');
-        const [totalRutinas] = await db.query('SELECT COUNT(*) as total FROM rutinas WHERE estado = "activa"');
+        // ✅ CORREGIDO: Comillas simples para el estado en SQL
+        const [totalUsuarios] = await db.query(`SELECT COUNT(*) as total FROM usuarios WHERE estado = 'activo'`);
+        const [totalEntrenadores] = await db.query(`SELECT COUNT(*) as total FROM entrenadores WHERE estado = 'activo'`);
+        const [totalClases] = await db.query(`SELECT COUNT(*) as total FROM clases WHERE estado = 'activa'`);
+        const [totalRutinas] = await db.query(`SELECT COUNT(*) as total FROM rutinas WHERE estado = 'activa'`);
 
         // Actividad reciente: últimas 5 acciones (puedes definir una tabla logs, pero por ahora usamos asistencias, inscripciones, etc.)
         const [actividad] = await db.query(`
@@ -71,20 +72,18 @@ exports.crearUsuario = async (req, res) => {
 
 exports.actualizarUsuario = async (req, res) => {
     const { id } = req.params;
-    const updates = req.body; // { estado: 'activo' } o { nombre, apellido, etc. }
+    const updates = req.body; 
 
     if (!updates || Object.keys(updates).length === 0) {
         return res.status(400).json({ error: 'No hay datos para actualizar' });
     }
 
-    // Construir dinámicamente la consulta SET
     const campos = [];
     const valores = [];
     for (const [key, value] of Object.entries(updates)) {
-        // Mapear los nombres de campos del frontend a los de la BD
         let campoDB = key;
         if (key === 'objetivo_general') campoDB = 'objetivo_general';
-        if (key === 'id_usuario') continue; // no actualizar la PK
+        if (key === 'id_usuario') continue; 
         campos.push(`${campoDB} = ?`);
         valores.push(value);
     }
@@ -106,7 +105,8 @@ exports.actualizarUsuario = async (req, res) => {
 exports.desactivarUsuario = async (req, res) => {
     const { id } = req.params;
     try {
-        await db.query('UPDATE usuarios SET estado = "inactivo" WHERE id_usuario = ?', [id]);
+        // ✅ CORREGIDO: Comillas simples en inactivo
+        await db.query(`UPDATE usuarios SET estado = 'inactivo' WHERE id_usuario = ?`, [id]);
         res.json({ mensaje: 'Usuario desactivado' });
     } catch (err) {
         console.error(err);
@@ -179,7 +179,8 @@ exports.actualizarEntrenador = async (req, res) => {
 exports.desactivarEntrenador = async (req, res) => {
     const { id } = req.params;
     try {
-        await db.query('UPDATE entrenadores SET estado = "inactivo" WHERE id_entrenador = ?', [id]);
+        // ✅ CORREGIDO: Comillas simples en inactivo
+        await db.query(`UPDATE entrenadores SET estado = 'inactivo' WHERE id_entrenador = ?`, [id]);
         res.json({ mensaje: 'Entrenador desactivado' });
     } catch (err) {
         console.error(err);
@@ -263,7 +264,7 @@ exports.getClases = async (req, res) => {
 };
 
 exports.crearClase = async (req, res) => {
-    const { nombre, descripcion, entrenador_id, cupo_maximo, hora_inicio, hora_fin, dias } = req.body; // dias array de ids de día
+    const { nombre, descripcion, entrenador_id, cupo_maximo, hora_inicio, hora_fin, dias } = req.body; 
     if (!nombre || !entrenador_id || !hora_inicio || !hora_fin || !dias || dias.length === 0) {
         return res.status(400).json({ error: 'Faltan datos obligatorios' });
     }
@@ -392,7 +393,6 @@ exports.asignarMembresia = async (req, res) => {
 // ==================== REPORTES ====================
 exports.getReportes = async (req, res) => {
     try {
-        // Usuarios por mes (últimos 6 meses)
         const [usuariosPorMes] = await db.query(`
             SELECT DATE_FORMAT(fecha_registro, '%Y-%m') as mes, COUNT(*) as total
             FROM usuarios
@@ -400,7 +400,6 @@ exports.getReportes = async (req, res) => {
             GROUP BY DATE_FORMAT(fecha_registro, '%Y-%m')
             ORDER BY mes ASC
         `);
-        // Asistencias diarias promedio
         const [asistenciasPromedio] = await db.query(`
             SELECT AVG(asistencias_diarias) as promedio
             FROM (
@@ -439,8 +438,11 @@ exports.getReportesAvanzados = async (req, res) => {
 
         // 1. Métricas generales
         const [[totalUsuarios]] = await db.query('SELECT COUNT(*) as total FROM usuarios');
-        const [[usuariosActivos]] = await db.query('SELECT COUNT(*) as total FROM usuarios WHERE estado = "activo"');
-        const [[usuariosInactivos]] = await db.query('SELECT COUNT(*) as total FROM usuarios WHERE estado = "inactivo"');
+        
+        // ✅ CORREGIDO: Comillas simples para las siguientes consultas de estado
+        const [[usuariosActivos]] = await db.query(`SELECT COUNT(*) as total FROM usuarios WHERE estado = 'activo'`);
+        const [[usuariosInactivos]] = await db.query(`SELECT COUNT(*) as total FROM usuarios WHERE estado = 'inactivo'`);
+        
         const [[totalEntrenadores]] = await db.query('SELECT COUNT(*) as total FROM entrenadores');
         const [[asistenciasPeriodo]] = await db.query(
             'SELECT COUNT(*) as total FROM asistencia WHERE fecha BETWEEN ? AND ?',
