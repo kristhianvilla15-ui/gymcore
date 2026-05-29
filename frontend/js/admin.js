@@ -4,7 +4,7 @@ let currentAdmin = null;
 document.addEventListener('DOMContentLoaded', () => {
     const adminData = localStorage.getItem('userGymCore');
     if (!adminData || JSON.parse(adminData).rol !== 'admin') {
-        window.location.href = 'login.html';
+        window.location.href = '../index.html';
         return;
     }
     currentAdmin = JSON.parse(adminData);
