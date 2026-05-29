@@ -63,8 +63,8 @@ document.getElementById('formGymCore').addEventListener('submit', async (e) => {
         if (response.ok) {
             alert('¡Registro completado!');
             document.getElementById('formGymCore').reset();
-            // Redirigir al login
-            window.location.href = 'login.html';
+            // ✅ CORRECCIÓN: Redirigir al index.html que está en la raíz
+            window.location.href = '../index.html';
         } else {
             alert('Error: ' + data.error);
         }
