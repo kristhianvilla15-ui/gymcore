@@ -39,13 +39,13 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
 
         alert(`Bienvenido ${userFinal.nombre}`);
 
-        // ✅ CORRECCIÓN DEFINITIVA: Rutas absolutas desde la raíz para Vercel
+        // ✅ CORRECCIÓN FINAL: Se añade '/frontend' antes de '/pages' porque Vercel lo exige
         if (userFinal.rol === 'entrenador') {
-            window.location.replace('/pages/entrenador.html');
+            window.location.replace('/frontend/pages/entrenador.html');
         } else if (userFinal.rol === 'admin') {
-            window.location.replace('/pages/admin.html');
+            window.location.replace('/frontend/pages/admin.html');
         } else {
-            window.location.replace('/pages/usuario.html');
+            window.location.replace('/frontend/pages/usuario.html');
         }
     } catch (error) {
         console.error('Error:', error);
