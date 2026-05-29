@@ -39,12 +39,13 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
 
         alert(`Bienvenido ${userFinal.nombre}`);
 
+        // ✅ CORRECCIÓN DEFINITIVA: Rutas absolutas desde la raíz para Vercel
         if (userFinal.rol === 'entrenador') {
-            window.location.replace('entrenador.html');
+            window.location.replace('/pages/entrenador.html');
         } else if (userFinal.rol === 'admin') {
-            window.location.replace('admin.html');
+            window.location.replace('/pages/admin.html');
         } else {
-            window.location.replace('usuario.html');
+            window.location.replace('/pages/usuario.html');
         }
     } catch (error) {
         console.error('Error:', error);
