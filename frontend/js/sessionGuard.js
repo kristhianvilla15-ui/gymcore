@@ -6,13 +6,13 @@
 
     window.addEventListener('popstate', () => {
         localStorage.removeItem('userGymCore');
-        window.location.replace('login.html');
+        window.location.replace('../index.html');
     });
 
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
             localStorage.removeItem('userGymCore');
-            window.location.replace('login.html');
+            window.location.replace('../index.html');
         }
     });
 })();
