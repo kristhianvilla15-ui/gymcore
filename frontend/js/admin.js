@@ -654,5 +654,5 @@ function cerrarModal(modalId) {
 
 function logout() {
     localStorage.removeItem('userGymCore');
-    window.location.replace('login.html');
+    window.location.replace('../index.html');
 }
