@@ -13,7 +13,7 @@ let ultimaRacha = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!user || !user.cedula) {
-        window.location.replace('login.html');
+        window.location.replace('../index.html');
         return;
     }
 
