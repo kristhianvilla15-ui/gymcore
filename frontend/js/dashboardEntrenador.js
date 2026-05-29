@@ -9,27 +9,28 @@ let chartPlanes = null;
 document.addEventListener('DOMContentLoaded', () => {
     const userData = localStorage.getItem('userGymCore');
     if (!userData) {
-        window.location.replace('login.html');
+        // ✅ CORRECCIÓN: Paso atrás para salir de /pages/ e ir al login principal
+        window.location.replace('../index.html');
         return;
     }
     currentUser = JSON.parse(userData);
     if (currentUser.rol !== 'entrenador') {
-        window.location.replace('login.html');
+        // ✅ CORRECCIÓN: Paso atrás de seguridad
+        window.location.replace('../index.html');
         return;
     }
     if (document.getElementById('userName')) {
         document.getElementById('userName').textContent = currentUser.nombre;
     }
+    
     cargarDatosEntrenador();
     cargarMisClases();
     cargarUsuariosParaReporte();
-    // Cargar los nuevos gráficos si la sección está visible (opcional, se llaman en mostrarSeccion)
 
     history.pushState(null, null, location.href);
     window.onpopstate = function () {
         history.pushState(null, null, location.href);
     };
-
 });
 
 function mostrarSeccion(id) {
@@ -56,8 +57,10 @@ async function cargarDatosEntrenador() {
         const res = await fetch(`${API_BASE}/supervision?entrenadorId=${currentUser.id_entrenador}`);
         if (!res.ok) throw new Error('Error en la petición');
         const data = await res.json();
+        
         document.getElementById('totalActivos').textContent = data.usuariosActivos || 0;
         document.getElementById('asistenciasHoy').textContent = data.asistenciasHoy || 0;
+        
         const tabla = document.getElementById('tablaUsuarios');
         if (tabla && data.listaUsuarios) {
             tabla.innerHTML = data.listaUsuarios.map(u => `
@@ -75,9 +78,7 @@ async function cargarDatosEntrenador() {
     }
 }
 
-function gestionarUsuario(id) {
-    alert('Función en desarrollo: detalles del usuario ' + id);
-}
+// 🔄 SE REMOVIÓ LA FUNCIÓN DUPLICADA DE GESTIONAR USUARIO QUE ESTABA AQUÍ
 
 // ==================== RUTINAS ====================
 async function publicarRutina() {
@@ -302,8 +303,11 @@ function actualizarEstadisticasReporte(data) {
 }
 
 function actualizarGrafico(data, tipo) {
-    const ctx = document.getElementById('graficoAsistencias').getContext('2d');
+    const canvas = document.getElementById('graficoAsistencias');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
     if (chartInstance) chartInstance.destroy();
+    
     let labels = [], valores = [], labelTexto = '', tipoGrafico = 'line';
     if (tipo === 'asistencias' || tipo === 'progreso') {
         labels = data.fechas?.length ? data.fechas : ['Sin datos'];
@@ -321,6 +325,7 @@ function actualizarGrafico(data, tipo) {
         labelTexto = 'Asistencias Mensuales';
         tipoGrafico = 'line';
     }
+    
     chartInstance = new Chart(ctx, {
         type: tipoGrafico,
         data: { labels, datasets: [{ label: labelTexto, data: valores, borderColor: '#00ff88', backgroundColor: tipoGrafico === 'bar' ? 'rgba(0, 255, 136, 0.2)' : 'rgba(0, 255, 136, 0.1)', borderWidth: 2, fill: true, tension: 0.3, pointBackgroundColor: '#00ff88', pointBorderColor: '#fff' }] },
@@ -344,16 +349,18 @@ function actualizarTablaReporte(data) {
     `).join('');
 }
 
-// ==================== NUEVAS FUNCIONES (opción 2 y 3) ====================
+// ==================== EVOLUCIÓN Y RENDIMIENTO REAL ====================
 async function cargarEvolucionPeso(usuarioId = null) {
     if (!currentUser || !currentUser.id_entrenador) return;
+    const canvas = document.getElementById('graficoEvolucionPeso');
+    if (!canvas) return;
     try {
         let url = `${API_BASE}/evolucion-peso?entrenadorId=${currentUser.id_entrenador}`;
         if (usuarioId) url += `&usuarioId=${usuarioId}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error('Error al cargar evolución de peso');
         const data = await res.json();
-        const ctx = document.getElementById('graficoEvolucionPeso').getContext('2d');
+        const ctx = canvas.getContext('2d');
         if (chartPeso) chartPeso.destroy();
         if (data.length === 0) {
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -377,13 +384,15 @@ async function cargarEvolucionPeso(usuarioId = null) {
 
 async function cargarRendimientoPlanes(usuarioId = null) {
     if (!currentUser || !currentUser.id_entrenador) return;
+    const canvas = document.getElementById('graficoRendimientoPlanes');
+    if (!canvas) return;
     try {
         let url = `${API_BASE}/rendimiento-planes?entrenadorId=${currentUser.id_entrenador}`;
         if (usuarioId) url += `&usuarioId=${usuarioId}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error('Error al cargar rendimiento por planes');
         const data = await res.json();
-        const ctx = document.getElementById('graficoRendimientoPlanes').getContext('2d');
+        const ctx = canvas.getContext('2d');
         if (chartPlanes) chartPlanes.destroy();
         if (data.length === 0) {
             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -405,6 +414,7 @@ async function cargarRendimientoPlanes(usuarioId = null) {
     }
 }
 
+// ✅ SE DEJA ESTA VERSIÓN QUE CONECTA CON LA API BASE REAL
 async function gestionarUsuario(id) {
     try {
         const res = await fetch(`${API_BASE}/peso-usuario?usuarioId=${id}`);
@@ -412,22 +422,15 @@ async function gestionarUsuario(id) {
         const data = await res.json();
 
         let mensaje = '';
-        let color = '';
         if (data.tendencia === 'bajando') {
             mensaje = `✅ Ha bajado ${Math.abs(data.diferencia)} kg. ¡Excelente progreso!`;
-            color = '#00ff88';
         } else if (data.tendencia === 'subiendo') {
             mensaje = `⚠️ Ha subido ${data.diferencia} kg. Revisar plan de entrenamiento.`;
-            color = '#ff6b6b';
         } else {
             mensaje = `⚖️ Se mantiene estable (diferencia de ${data.diferencia} kg).`;
-            color = '#ffaa00';
         }
 
-        // Mostrar modal personalizado (puedes usar alert o crear un div modal)
         alert(`Usuario ID: ${id}\n${mensaje}\n\nPeso inicial: ${data.primerPeso} kg\nPeso actual: ${data.ultimoPeso} kg`);
-        
-        // Opcional: si quieres mostrar gráfico, aquí puedes llamar a otra función
     } catch (error) {
         alert('No se pudo obtener la evolución de peso');
     }
@@ -436,5 +439,6 @@ async function gestionarUsuario(id) {
 // ==================== LOGOUT ====================
 function logout() {
     localStorage.removeItem('userGymCore');
-    window.location.replace('login.html');
+    // ✅ CORRECCIÓN DEFINITIVA: Regresa al login saliendo de la carpeta 'pages'
+    window.location.replace('../index.html');
 }
